@@ -1,8 +1,16 @@
-# About
-Corny Commons is a Python package containing modules for use by MagicalCornFlake. They are used projects such as Dzwonnik 2 and other private work-in-progress projects.
+<!-- exclue in toc -->
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [About *Corny Commons*](#about-corny-commons)
+- [Packages](#packages)
+	- [1. util.py](#1-utilpy)
+		- [a) web.py](#a-webpy)
+
+# About *Corny Commons*
+Corny Commons is a Python package containing modules for use by MagicalCornFlake. They are used projects such as [Dzwonnik 2](https://github.com/MagicalCornFlake/dzwonnik-2) and other private work-in-progress projects.
 
 # Packages
-There is currently one package inside Corny Commons; the `util` package. 
+There is currently one package inside Corny Commons: the `util` package. 
 
 ## 1. util.py
 As you can guess, this package contains utility-oriented modules.
