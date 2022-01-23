@@ -14,11 +14,11 @@ def clear_log_file(filename: str) -> None:
     """Truncates the log file and writes to it a log header to identify when it was started."""
     formatted_time = f"{datetime.now():%Y-%m-%d__%H.%M.%S}"
     log_template = f"START TIMESTAMP {formatted_time} END TIMESTAMP Started log.\n"
-    with open(filename, 'w', encoding="UTF-8") as file:
+    with open(filename + ".log", 'w', encoding="UTF-8") as file:
         file.write(log_template)
 
 
-def log(*raw_message: str, filename) -> str:
+def log(*raw_message: str, filename = "") -> str:
     """Writes the message to the current log file, and returns the message formatted with the
     current time and proper indentation.
     """
@@ -28,7 +28,7 @@ def log(*raw_message: str, filename) -> str:
     message = timestamp + \
         ' '.join(map(str, raw_message)).replace(
             "\n", "\n" + " " * len(timestamp))
-    with open(filename, 'a', encoding="UTF-8") as file:
+    with open(filename + ".log", 'a', encoding="UTF-8") as file:
         file.write(message + "\n")
     print(message)
     return message
@@ -36,6 +36,7 @@ def log(*raw_message: str, filename) -> str:
 
 def save_active_log_file(filename: str, logs_dir: str = "logs") -> None:
     """Copies the active log file to a new file in the logs directory and clears it."""
+    filename += ".log"
     try:
         with open(filename, 'r', encoding="UTF-8") as file:
             contents = file.read()
