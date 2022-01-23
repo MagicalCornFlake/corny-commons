@@ -18,7 +18,7 @@ def clear_log_file(filename: str) -> None:
         file.write(log_template)
 
 
-def log(*raw_message: str, filename = "") -> str:
+def log(*raw_message: str, filename = "", print_msg: bool = True) -> str:
     """Writes the message to the current log file, and returns the message formatted with the
     current time and proper indentation.
     """
@@ -30,7 +30,8 @@ def log(*raw_message: str, filename = "") -> str:
             "\n", "\n" + " " * len(timestamp))
     with open(filename + ".log", 'a', encoding="UTF-8") as file:
         file.write(message + "\n")
-    print(message)
+    if print_msg:
+        print(message)
     return message
 
 
@@ -82,7 +83,7 @@ def get_cache(cache_name: str, force_update: bool, callback_function) -> tuple[d
     Returns a tuple consisting of the cached data and the old cache (defaults to an empty dict).
     """
     cache = read_cache(cache_name)
-    log(f"Cache for {cache_name} was {'*not* ' * (not cache)}found.")
+    log(f"Cache for {cache_name} was {'*not* ' * (not cache)}found.", print_msg=False)
     if not force_update and cache:
         # The cache has no need to be updated.
         return cache, cache
