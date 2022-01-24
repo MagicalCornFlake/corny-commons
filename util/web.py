@@ -81,7 +81,7 @@ def make_request(
     send_log(f"Fetching content from {url} ...", force=True)
     try:
         # Waits 10s for response
-        response = requests.get(url, headers, timeout=10)
+        response = requests.get(url, headers=headers, timeout=10)
     except requests.exceptions.ReadTimeout as timeout_exc:
         raise InvalidResponseException(408) from timeout_exc
     if not 200 <= response.status_code < 300:
