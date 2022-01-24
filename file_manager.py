@@ -64,7 +64,7 @@ def read_cache(cache_name: str) -> dict:
     """Returns the cached data if it exists, otherwise an empty dictionary."""
     if not os.path.isdir(CACHE_DIRECTORY):
         os.mkdir(CACHE_DIRECTORY)
-    filepath = f"{CACHE_DIRECTORY}/{cache_name}.json"
+    filepath = os.path.join(CACHE_DIRECTORY, f"{cache_name}.json")
     if not os.path.isfile(filepath):
         return {}
     with open(filepath, 'r', encoding="UTF-8") as file:
@@ -99,8 +99,10 @@ def get_cache(cache_name: str, force_update: bool, callback_function) -> tuple[d
 def write_cache(cache_name: str, data: dict) -> None:
     """Serialises the given data and writes it in json format to the cache directory."""
     json_string = json.dumps(data, indent=2, ensure_ascii=False)
-    with open(f"{CACHE_DIRECTORY}/{cache_name}.json", 'w', encoding="UTF-8") as file:
+    filename = os.path.join(CACHE_DIRECTORY, f"{cache_name}.json")
+    with open(filename, 'w', encoding="UTF-8") as file:
         file.write(json_string)
+    log(f"Wrote cache to '{filename}'.", print_msg=False)
 
 
 def clear_cache(cache_name: str = None, cache_path: str = None) -> int:
