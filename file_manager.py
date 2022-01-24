@@ -131,7 +131,7 @@ def clear_cache(cache_name: str = None, cache_path: str = None) -> int:
     return False
 
 
-def read_env_file() -> bool:
+def read_env() -> bool:
     """Reads the .env file in the current directory and sets its contents in the program's memory.
 
     Returns a boolean indicating if any system environment variables were set as a result of this.
