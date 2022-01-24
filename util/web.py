@@ -60,6 +60,7 @@ class InvalidResponseException(WebException):
 def make_request(
     url: str,
     headers: dict = None,
+    params: dict = None,
     ignore_request_limit: bool = False
 ) -> requests.Response:
     """Make a web request.
@@ -81,7 +82,12 @@ def make_request(
     send_log(f"Fetching content from {url} ...", force=True)
     try:
         # Waits 10s for response
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get(
+            url,
+            headers=headers,
+            params=params,
+            timeout=10
+        )
     except requests.exceptions.ReadTimeout as timeout_exc:
         raise InvalidResponseException(408) from timeout_exc
     if not 200 <= response.status_code < 300:
