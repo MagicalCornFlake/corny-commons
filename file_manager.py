@@ -54,6 +54,8 @@ def save_active_log_file(filename: str, logs_dir: str = "logs") -> None:
 
     # Copy active log contents to new file
     new_log_filename = os.path.join(logs_dir, log_start_time + '.log')
+    if not os.path.exists(logs_dir):
+        os.mkdir(logs_dir)
     with open(new_log_filename, 'w', encoding="UTF-8") as file:
         file.write(contents[1])
 
