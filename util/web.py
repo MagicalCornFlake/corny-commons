@@ -9,7 +9,7 @@ import requests
 
 def send_log(*msg, force: bool = False):
     """Function that defines the log behaviour. 
-    
+
     Intended to be redefined with another log function with the following signature:
     `def send_log(*msg, force) -> None: ...`
     """
@@ -51,17 +51,23 @@ class InvalidResponseException(WebException):
 
     _MESSAGE_TEMPLATE = "Invalid web response! Status code: {status_code}."
 
-    def __init__(self, status_code: int, message=_MESSAGE_TEMPLATE):
+    def __init__(self, status_code: int, message: str = _MESSAGE_TEMPLATE):
         self.status_code = status_code
         self.message = message.format(status_code=status_code)
         super().__init__(self.message)
 
 
-def make_request(url: str, ignore_request_limit: bool = False) -> requests.Response:
+def make_request(
+    url: str,
+    headers: dict = None,
+    ignore_request_limit: bool = False
+) -> requests.Response:
     """Make a web request.
 
     Arguments:
-        url -- the url of the resource to request data from
+        url -- the url of resource whose data should be requested.
+        headers -- a dictionary containing the header keys and values.
+        ignore_request_limit -- a boolean indicating if the 3 second limit should be ignored.
 
     Raises:
         web.TooManyRequestsException if there was more than one request made per 3 seconds.
@@ -74,7 +80,8 @@ def make_request(url: str, ignore_request_limit: bool = False) -> requests.Respo
     TooManyRequestsException.last_request_time = current_time
     send_log(f"Fetching content from {url} ...", force=True)
     try:
-        response = requests.get(url, timeout=10)  # Waits 10s for response
+        # Waits 10s for response
+        response = requests.get(url, headers, timeout=10)
     except requests.exceptions.ReadTimeout as timeout_exc:
         raise InvalidResponseException(408) from timeout_exc
     if not 200 <= response.status_code < 300:
@@ -82,8 +89,8 @@ def make_request(url: str, ignore_request_limit: bool = False) -> requests.Respo
     return response
 
 
-def get_html(url: str, ignore_max_requests_cooldown: bool) -> str:
+def get_html(url: str, ignore_request_limit: bool) -> str:
     """Same as `make_request()`, but returns the response's decoded HTML content."""
-    res = make_request(url, ignore_max_requests_cooldown)
+    res = make_request(url, ignore_request_limit=ignore_request_limit)
     html = res.content.decode('UTF-8')
     return html.replace("<html><head>", "<html>\n<head>", 1)
