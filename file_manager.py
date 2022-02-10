@@ -18,7 +18,7 @@ def clear_log_file(filename: str) -> None:
         file.write(log_template)
 
 
-def log(*raw_message: str, filename = "", print_msg: bool = True) -> str:
+def log(*raw_message: str, filename = "", force: bool = True) -> str:
     """Writes the message to the current log file, and returns the message formatted with the
     current time and proper indentation.
     """
@@ -30,7 +30,7 @@ def log(*raw_message: str, filename = "", print_msg: bool = True) -> str:
             "\n", "\n" + " " * len(timestamp))
     with open(filename + ".log", 'a', encoding="UTF-8") as file:
         file.write(message + "\n")
-    if print_msg:
+    if force:
         print(message)
     return message
 
@@ -85,7 +85,7 @@ def get_cache(cache_name: str, force_update: bool, callback_function) -> tuple[d
     Returns a tuple consisting of the cached data and the old cache (defaults to an empty dict).
     """
     cache = read_cache(cache_name)
-    log(f"Cache for {cache_name} was {'*not* ' * (not cache)}found.", print_msg=False)
+    log(f"Cache for {cache_name} was {'*not* ' * (not cache)}found.", force=False)
     if not force_update and cache:
         # The cache has no need to be updated.
         return cache, cache
@@ -102,7 +102,7 @@ def write_cache(cache_name: str, data: dict) -> None:
     filename = os.path.join(CACHE_DIRECTORY, f"{cache_name}.json")
     with open(filename, 'w', encoding="UTF-8") as file:
         file.write(json_string)
-    log(f"Wrote cache to '{filename}'.", print_msg=False)
+    log(f"Wrote cache to '{filename}'.", force=False)
 
 
 def clear_cache(cache_name: str = None, cache_path: str = None) -> int:

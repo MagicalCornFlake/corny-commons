@@ -7,15 +7,15 @@ import time
 import requests
 
 
-def send_log(*msg, force: bool = False):
-    """Function that defines the log behaviour. 
+def send_log(*msg, force: bool = False, **kwargs):
+    """Function that defines the log behaviour. By default, alias of `print`.
 
     Intended to be redefined with another log function with the following signature:
     `def send_log(*msg, force) -> None: ...`
     """
     if not force:
         return
-    print(*msg)
+    print(*msg, **kwargs)
 
 
 MAX_REQUEST_COOLDOWN: int = 3  # Must wait 3s since last request
@@ -35,8 +35,7 @@ class TooManyRequestsException(WebException):
     last_request_time: int = 0
 
     def __init__(self, current_time: int, message="You must must wait for another {cooldown}s."):
-        self.time_passed = current_time * 1000 - self.last_request_time * 1000
-        cooldown = f"{(MAX_REQUEST_COOLDOWN * 1000) - self.time_passed:.2f}"
+        cooldown = f"{self.last_request_time + MAX_REQUEST_COOLDOWN - current_time:.2f}"
         self.message = message.format(cooldown=cooldown)
         super().__init__(self.message)
 
