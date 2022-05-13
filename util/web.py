@@ -35,8 +35,8 @@ class TooManyRequestsException(WebException):
     last_request_time: int = 0
 
     def __init__(self, current_time: int, message="You must must wait for another {cooldown}s."):
-        cooldown = f"{self.last_request_time + MAX_REQUEST_COOLDOWN - current_time:.2f}"
-        self.message = message.format(cooldown=cooldown)
+        self.cooldown = f"{self.last_request_time + MAX_REQUEST_COOLDOWN - current_time:.2f}"
+        self.message = message.format(cooldown=self.cooldown)
         super().__init__(self.message)
 
 
