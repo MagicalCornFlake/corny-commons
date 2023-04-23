@@ -1,5 +1,11 @@
 """Module for the terminal-based graphics engine."""
 
+import os
+
+
+# Without this, the character escape sequences don't work on Windows.
+os.system("")
+
 
 class Display:
     """Base class for the display engine."""
