@@ -1,3 +1,17 @@
+Metadata-Version: 2.1
+Name: corny-commons
+Version: 1.0.1
+Summary: A project containing packages common to various other Python projects.
+Author-email: Konrad Guzek <konrad@guzek.uk>
+Project-URL: Homepage, https://github.com/kguzek/corny-commons
+Project-URL: Bug Tracker, https://github.com/kguzek/corny-commons/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 <!-- exclude in toc -->
 # Table of Contents
 - [Table of Contents](#table-of-contents)
