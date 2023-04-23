@@ -1,6 +1,7 @@
 # Python cache for files generated during compilation
 *.pyc
 __pycache__
+build
 
 # Local log files
 *.log
