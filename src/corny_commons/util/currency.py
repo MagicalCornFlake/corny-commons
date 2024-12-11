@@ -61,8 +61,9 @@ if __name__ == "__main__":
     try:
         while True:
             raw = input(
-                "Type origin currency, target currency and conversion amount...\n> ")
-            _frm, _to, _value = raw.split(' ', maxsplit=2)
+                "Type origin currency, target currency and conversion amount...\n> "
+            )
+            _frm, _to, _value = raw.split(" ", maxsplit=2)
             _result = convert(float(_value), _to, _frm, -1)
             print(f"{_frm} {_value} = {_to} {_result}")
     except KeyboardInterrupt:

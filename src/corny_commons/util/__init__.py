@@ -12,7 +12,7 @@ def format_exception_info(exception: Exception):
     """
     info = type(exception), exception, exception.__traceback__
     fmt_info = traceback.format_exception(*info)
-    return ''.join(fmt_info)
+    return "".join(fmt_info)
 
 
 def format_time(val: int, word: str):
@@ -29,6 +29,6 @@ def format_seconds(seconds: int):
     hours, minutes = divmod(minutes, 60)
 
     hours = format_time(hours, "hour")
-    minutes = format_time(minutes,"minute")
+    minutes = format_time(minutes, "minute")
     seconds = format_time(seconds, "second")
     return hours + minutes + seconds

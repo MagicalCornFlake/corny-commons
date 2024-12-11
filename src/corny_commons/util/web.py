@@ -32,10 +32,15 @@ class TooManyRequestsException(WebException):
         time_since_last_request -- the time since the last request, in milliseconds
         message -- explanation of the error
     """
+
     last_request_time: int = 0
 
-    def __init__(self, current_time: int, message="You must must wait for another {cooldown}s."):
-        self.cooldown = f"{self.last_request_time + MAX_REQUEST_COOLDOWN - current_time:.2f}"
+    def __init__(
+        self, current_time: int, message="You must must wait for another {cooldown}s."
+    ):
+        self.cooldown = (
+            f"{self.last_request_time + MAX_REQUEST_COOLDOWN - current_time:.2f}"
+        )
         self.message = message.format(cooldown=self.cooldown)
         super().__init__(self.message)
 
@@ -60,7 +65,7 @@ def make_request(
     url: str,
     headers: dict = None,
     params: dict = None,
-    ignore_request_limit: bool = False
+    ignore_request_limit: bool = False,
 ) -> requests.Response:
     """Make a web request.
 
@@ -81,12 +86,7 @@ def make_request(
     send_log(f"Fetching content from {url} ...", force=True)
     try:
         # Waits 10s for response
-        response = requests.get(
-            url,
-            headers=headers,
-            params=params,
-            timeout=10
-        )
+        response = requests.get(url, headers=headers, params=params, timeout=10)
     except requests.exceptions.ReadTimeout as timeout_exc:
         raise InvalidResponseException(408) from timeout_exc
     if not 200 <= response.status_code < 300:
@@ -97,5 +97,5 @@ def make_request(
 def get_html(url: str, ignore_request_limit: bool) -> str:
     """Same as `make_request()`, but returns the response's decoded HTML content."""
     res = make_request(url, ignore_request_limit=ignore_request_limit)
-    html = res.content.decode('UTF-8')
+    html = res.content.decode("UTF-8")
     return html.replace("<html><head>", "<html>\n<head>", 1)
